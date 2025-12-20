@@ -1,8 +1,8 @@
-import 'package:chess_new/pages/pass_and_play_page.dart';
-import 'package:chess_new/pages/play_a_bot_page.dart';
-import 'package:chess_new/pages/play_a_friend_page.dart';
-import 'package:chess_new/pages/play_a_stranger_page.dart';
-import 'package:chess_new/pages/play_local_page.dart';
+import 'package:chess/pages/pass_and_play_page.dart';
+import 'package:chess/pages/play_a_bot_page.dart';
+import 'package:chess/pages/play_a_friend_page.dart';
+import 'package:chess/pages/play_a_stranger_page.dart';
+import 'package:chess/pages/play_local_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {

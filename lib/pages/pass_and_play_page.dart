@@ -1,4 +1,4 @@
-import 'package:chess_new/widgets/game_widget.dart';
+import 'package:chess/widgets/game_widget.dart';
 import 'package:flutter/material.dart';
 
 class PassAndPlayPage extends StatelessWidget {

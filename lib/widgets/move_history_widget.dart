@@ -1,4 +1,4 @@
-import 'package:chess_new/models/move.dart';
+import 'package:chess/models/move.dart';
 import 'package:flutter/material.dart';
 
 class MoveHistoryWidget extends StatelessWidget {

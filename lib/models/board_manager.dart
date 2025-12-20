@@ -1,8 +1,8 @@
-import 'package:chess_new/models/board_analyzer.dart';
-import 'package:chess_new/models/move.dart';
-import 'package:chess_new/models/piece.dart';
-import 'package:chess_new/models/piece_placement.dart';
-import 'package:chess_new/models/square.dart';
+import 'package:chess/models/board_analyzer.dart';
+import 'package:chess/models/move.dart';
+import 'package:chess/models/piece.dart';
+import 'package:chess/models/piece_placement.dart';
+import 'package:chess/models/square.dart';
 
 class BoardManager {
   var currentPiecePlacement = PiecePlacement.starting();

@@ -1,7 +1,7 @@
-import 'package:chess_new/models/board_manager.dart';
-import 'package:chess_new/models/move.dart';
-import 'package:chess_new/models/square.dart';
-import 'package:chess_new/widgets/square_widget.dart';
+import 'package:chess/models/board_manager.dart';
+import 'package:chess/models/move.dart';
+import 'package:chess/models/square.dart';
+import 'package:chess/widgets/square_widget.dart';
 import 'package:flutter/material.dart';
 
 class BoardWidget extends StatefulWidget {

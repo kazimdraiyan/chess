@@ -15,11 +15,11 @@
 ### Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/kazimdraiyan/chess_new.git
+    git clone https://github.com/kazimdraiyan/chess.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd chess_new
+    cd chess
     ```
 3. Install dependencies:
     ```bash

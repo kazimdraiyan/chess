@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:chess_new/models/piece.dart';
+import 'package:chess/models/piece.dart';
 import 'package:flutter/material.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 

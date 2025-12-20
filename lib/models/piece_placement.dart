@@ -1,7 +1,7 @@
-import 'package:chess_new/models/move.dart';
-import 'package:chess_new/models/piece.dart';
-import 'package:chess_new/models/square.dart';
-import 'package:chess_new/utils.dart';
+import 'package:chess/models/move.dart';
+import 'package:chess/models/piece.dart';
+import 'package:chess/models/square.dart';
+import 'package:chess/utils.dart';
 
 class PiecePlacement {
   /// Rank 1 (File 1-8), Rank 2 (File 1-8), ...

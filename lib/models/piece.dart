@@ -1,4 +1,4 @@
-import 'package:chess_new/models/square.dart';
+import 'package:chess/models/square.dart';
 
 enum PieceType { king, queen, rook, bishop, knight, pawn }
 

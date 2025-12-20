@@ -1,6 +1,6 @@
-import 'package:chess_new/models/piece.dart';
-import 'package:chess_new/models/square.dart';
-import 'package:chess_new/utils.dart';
+import 'package:chess/models/piece.dart';
+import 'package:chess/models/square.dart';
+import 'package:chess/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
