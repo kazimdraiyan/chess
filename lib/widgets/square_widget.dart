@@ -14,6 +14,8 @@ class SquareWidget extends StatelessWidget {
   final bool isDotted;
   final bool isCircled;
   final bool isPieceRotated;
+  final bool showFileLabel;
+  final bool showRankLabel;
   final void Function(Square square) onTapSquare;
 
   const SquareWidget(
@@ -23,6 +25,8 @@ class SquareWidget extends StatelessWidget {
     this.isDotted = false,
     this.isCircled = false,
     this.isPieceRotated = false,
+    this.showFileLabel = false,
+    this.showRankLabel = false,
     required this.onTapSquare,
     super.key,
   });
@@ -45,21 +49,44 @@ class SquareWidget extends StatelessWidget {
           child: Center(
             child: Stack(
               children: [
+                if (showFileLabel)
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    padding: EdgeInsets.only(right: 2),
+                    child: Text(
+                      square.algebraicNotation[0],
+                      style: TextStyle(
+                        color: Constants.darkColorScheme.primary,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+
+                if (showRankLabel)
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 2),
+                    child: Text(
+                      square.algebraicNotation[1],
+                      style: TextStyle(
+                        color: Constants.darkColorScheme.primary,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+
                 if (piece != null)
                   Opacity(
                     // TODO: Remove this opacity
                     opacity: 1,
-                    child: PieceIconWidget(piece: piece, isPieceRotated: isPieceRotated),
+                    child: PieceIconWidget(
+                      piece: piece,
+                      isPieceRotated: isPieceRotated,
+                    ),
                   ),
-            
+
                 if (isDotted) Center(child: Dot()),
                 if (isCircled) Center(child: Circle()),
-                // Center(
-                //   child: Text(
-                //     square.algebraicNotation,
-                //     style: TextStyle(color: Colors.black),
-                //   ),
-                // ),
               ],
             ),
           ),

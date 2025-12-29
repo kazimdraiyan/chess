@@ -132,6 +132,11 @@ class _BoardWidgetState extends State<BoardWidget> {
             !isBeingDragged && !isOccupiedByEnemyPiece && piece != null;
         final isPieceRotated = !shouldRotateBoard && !widget.isWhiteToMove;
 
+        final showFileLabel =
+            isBoardRotated ? square.rank == 8 : square.rank == 1;
+        final showRankLabel =
+            isBoardRotated ? square.file == 8 : square.file == 1;
+
         return Stack(
           children: [
             DragTarget<Square>(
@@ -165,6 +170,8 @@ class _BoardWidgetState extends State<BoardWidget> {
                       square,
                       highlightColor: highlightColor,
                       isPieceRotated: isPieceRotated,
+                      showFileLabel: showFileLabel,
+                      showRankLabel: showRankLabel,
                       onTapSquare: onTapSquare,
                     ),
                     child: SquareWidget(
@@ -177,6 +184,8 @@ class _BoardWidgetState extends State<BoardWidget> {
                           legalMoveSquares.contains(square) &&
                           isOccupiedByEnemyPiece,
                       isPieceRotated: isPieceRotated,
+                      showFileLabel: showFileLabel,
+                      showRankLabel: showRankLabel,
                       onTapSquare: onTapSquare,
                     ),
                   ),
