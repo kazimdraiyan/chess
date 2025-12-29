@@ -137,7 +137,7 @@ class _BoardWidgetState extends State<BoardWidget> {
                 onTapSquare(square);
               },
               builder:
-                  (context, _, __) => Draggable<Square>(
+                  (context, _, _) => Draggable<Square>(
                     data: square,
                     maxSimultaneousDrags: isDraggable ? 1 : 0,
                     onDragStarted: () {
@@ -147,7 +147,7 @@ class _BoardWidgetState extends State<BoardWidget> {
                     onDragEnd: (_) {
                       setIsBeingDragged(false);
                     },
-                    onDraggableCanceled: (_, __) => onTapSquare(square),
+                    onDraggableCanceled: (_, _) => onTapSquare(square),
                     feedback: SizedBox(
                       width: 80,
                       height: 80,
