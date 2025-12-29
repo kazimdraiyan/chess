@@ -11,18 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'New Game',
-          style: TextStyle(
-            fontSize: 32,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
-        toolbarHeight: 70,
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
+      appBar: AppBar(title: Text('New Game')),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
