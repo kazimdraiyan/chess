@@ -5,13 +5,13 @@ import 'package:chess/widgets/square_widget.dart';
 import 'package:flutter/material.dart';
 
 class BoardWidget extends StatefulWidget {
-  final bool isWhitePerspective;
+  final bool isWhiteToMove;
   final BoardManager boardManager;
   final void Function() updateGameWidgetAfterMakingMove;
 
   const BoardWidget({
     super.key,
-    required this.isWhitePerspective,
+    required this.isWhiteToMove,
     required this.boardManager,
     required this.updateGameWidgetAfterMakingMove,
   });
@@ -23,6 +23,9 @@ class BoardWidget extends StatefulWidget {
 class _BoardWidgetState extends State<BoardWidget> {
   Square? selectedSquare;
 
+  // TODO: Add a switch in settings page to toggle this.
+  var shouldRotateBoard =
+      false; // true means the board rotates, false means the pieces rotate.
   var isBeingDragged = false;
 
   Move? lastMove;
@@ -47,7 +50,7 @@ class _BoardWidgetState extends State<BoardWidget> {
           unselectSquare();
         });
       } else if (isSelfPiece(tappedSquare)) {
-        // Self pieces never get highligted
+        // Self pieces never get highlighted
         setState(() {
           selectSquare(tappedSquare);
         });
@@ -59,7 +62,7 @@ class _BoardWidgetState extends State<BoardWidget> {
         unselectSquare();
         widget.updateGameWidgetAfterMakingMove();
       } else {
-        // Not highligted non-self squares
+        // Not highlighted non-self squares
         setState(() {
           unselectSquare();
         });
@@ -79,7 +82,7 @@ class _BoardWidgetState extends State<BoardWidget> {
 
   bool isSelfPiece(Square square) {
     final piece = widget.boardManager.currentPiecePlacement.pieceAt(square);
-    return piece != null && piece.isWhite == widget.isWhitePerspective;
+    return piece != null && piece.isWhite == widget.isWhiteToMove;
   }
 
   // TODO: Solve the dragging multiple pieces simultaneously problem.
@@ -96,7 +99,8 @@ class _BoardWidgetState extends State<BoardWidget> {
       shrinkWrap: true,
       itemCount: 64,
       itemBuilder: (context, i) {
-        final id = widget.isWhitePerspective ? i : 63 - i;
+        final isBoardRotated = shouldRotateBoard && !widget.isWhiteToMove;
+        final id = isBoardRotated ? 63 - i : i;
         final square = Square.fromId(id);
         final piece = widget.boardManager.currentPiecePlacement.pieceAt(square);
 
@@ -108,14 +112,14 @@ class _BoardWidgetState extends State<BoardWidget> {
             square == lastMove?.from || square == lastMove?.to;
 
         final isOccupiedByEnemyPiece = widget.boardManager
-            .isOccupiedByEnemyPiece(square, widget.isWhitePerspective);
+            .isOccupiedByEnemyPiece(square, widget.isWhiteToMove);
 
         final Color? highlightColor;
         if (isSelected || doesBelongToLastMove) {
           highlightColor = Colors.yellow.withAlpha(100);
         } else if ((lastMove?.causesCheck ?? false) &&
             widget.boardManager.currentPiecePlacement.kingSquare(
-                  widget.isWhitePerspective,
+                  widget.isWhiteToMove,
                 ) ==
                 square) {
           // King is in check
@@ -126,6 +130,7 @@ class _BoardWidgetState extends State<BoardWidget> {
 
         final isDraggable =
             !isBeingDragged && !isOccupiedByEnemyPiece && piece != null;
+        final isPieceRotated = !shouldRotateBoard && !widget.isWhiteToMove;
 
         return Stack(
           children: [
@@ -151,11 +156,15 @@ class _BoardWidgetState extends State<BoardWidget> {
                     feedback: SizedBox(
                       width: 80,
                       height: 80,
-                      child: PieceIconWidget(piece: piece),
+                      child: PieceIconWidget(
+                        piece: piece,
+                        isPieceRotated: isPieceRotated,
+                      ),
                     ),
                     childWhenDragging: SquareWidget(
                       square,
                       highlightColor: highlightColor,
+                      isPieceRotated: isPieceRotated,
                       onTapSquare: onTapSquare,
                     ),
                     child: SquareWidget(
@@ -167,6 +176,7 @@ class _BoardWidgetState extends State<BoardWidget> {
                       isCircled:
                           legalMoveSquares.contains(square) &&
                           isOccupiedByEnemyPiece,
+                      isPieceRotated: isPieceRotated,
                       onTapSquare: onTapSquare,
                     ),
                   ),

@@ -8,7 +8,6 @@ class Move {
   final Piece piece;
   final bool causesCheck;
   final bool capturesPiece;
-  // TODO: Should I use a separate class for castling moves instead of using a boolean?
   final bool? isKingSideCastlingMove; // null means not a castling move.
 
   const Move(

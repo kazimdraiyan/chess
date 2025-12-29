@@ -21,7 +21,6 @@ class _GameWidgetState extends State<GameWidget> {
   var boardManager = BoardManager();
 
   var isWhiteToMove = true;
-  var isWhitePerspective = true;
 
   // TODO: Optimize the dragging feature by calling setState only when and only where it's needed. We don't need to rebuild the whole GridView, if the change only affect a single square.
   // TODO: Generalize the function names so that it can describe both tapping and dragging.
@@ -30,7 +29,6 @@ class _GameWidgetState extends State<GameWidget> {
     setState(() {
       boardManager = BoardManager();
       isWhiteToMove = true;
-      isWhitePerspective = true;
       changeBoardWidgetKey();
     });
   }
@@ -55,7 +53,7 @@ class _GameWidgetState extends State<GameWidget> {
 
   void updateGameWidgetAfterMakingMove() {
     setState(() {
-      isWhitePerspective = !isWhitePerspective;
+      isWhiteToMove = !isWhiteToMove;
 
       // TODO: Learn how does this work.
       // This ensures that the new move chip is added to the move history ListView before scrolling to the end.
@@ -104,7 +102,7 @@ class _GameWidgetState extends State<GameWidget> {
           ),
         ),
         BoardWidget(
-          isWhitePerspective: isWhitePerspective,
+          isWhiteToMove: isWhiteToMove,
           boardManager: boardManager,
           updateGameWidgetAfterMakingMove: updateGameWidgetAfterMakingMove,
           key: ValueKey(boardWidgetKeyValue),
