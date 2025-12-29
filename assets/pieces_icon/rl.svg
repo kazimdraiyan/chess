@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="45" height="45">
-  <g style="opacity:1; fill:#ffffff; fill-opacity:1; fill-rule:evenodd; stroke:#000000; stroke-width:1.5; stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1;" transform="translate(0,0.3)">
-    <path
-      d="M 9,39 L 36,39 L 36,36 L 9,36 L 9,39 z "
-      style="stroke-linecap:butt;" />
-    <path
-      d="M 12,36 L 12,32 L 33,32 L 33,36 L 12,36 z "
-      style="stroke-linecap:butt;" />
-    <path
-      d="M 11,14 L 11,9 L 15,9 L 15,11 L 20,11 L 20,9 L 25,9 L 25,11 L 30,11 L 30,9 L 34,9 L 34,14"
-      style="stroke-linecap:butt;" />
-    <path
-      d="M 34,14 L 31,17 L 14,17 L 11,14" />
-    <path
-      d="M 31,17 L 31,29.5 L 14,29.5 L 14,17"
-      style="stroke-linecap:butt; stroke-linejoin:miter;" />
-    <path
-      d="M 31,29.5 L 32.5,32 L 12.5,32 L 14,29.5" />
-    <path
-      d="M 11,14 L 34,14"
-      style="fill:none; stroke:#000000; stroke-linejoin:miter;" />
-  </g>
-</svg>
+<svg
+   width="260"
+   height="260"
+   xml:space="preserve"
+   overflow="hidden"
+   version="1.1"
+   id="svg17"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs5"><clipPath
+       id="clip0"><rect
+         x="1420"
+         y="1757"
+         width="260"
+         height="260"
+         id="rect2" /></clipPath></defs><g
+     clip-path="url(#clip0)"
+     transform="matrix(0.9,0,0,0.9,-1264.9,-1568.2)"
+     id="g15"><path
+       id="path1033"
+       style="color:#000000;fill:#262626;fill-rule:evenodd;stroke-miterlimit:8;-inkscape-stroke:none"
+       d="m 1455.1875,1773.1875 v 116.625 h 30.041 l -17.791,113 h 12.0625 155.0625 l -17.791,-113 h 30.041 v -116.625 z" /><path
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       d="m 1506.1094,1889.8125 -14.5449,92.375 h 118.871 l -14.5449,-92.375 z"
+       id="path1038" /><path
+       style="fill:#ffffff;fill-opacity:1;stroke:none"
+       d="m 1475.8125,1793.8125 v 75.375 h 150.375 v -75.375 h -34.375 v 31.6582 h -20.625 v -31.6582 h -40.375 v 31.6582 h -20.625 v -31.6582 z"
+       id="path7" /></g></svg>

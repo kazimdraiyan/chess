@@ -74,13 +74,19 @@ class _GameWidgetState extends State<GameWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        MoveHistoryWidget(
+          moveHistory: boardManager.moveHistory,
+          scrollController: moveHistoryScrollController,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: TextField(
             controller: textEditingController,
             decoration: InputDecoration(
               hintText: "Set FEN",
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
           ),
         ),
@@ -97,10 +103,6 @@ class _GameWidgetState extends State<GameWidget> {
             ],
           ),
         ),
-        MoveHistoryWidget(
-          moveHistory: boardManager.moveHistory,
-          scrollController: moveHistoryScrollController,
-        ),
         BoardWidget(
           isWhitePerspective: isWhitePerspective,
           boardManager: boardManager,
@@ -111,7 +113,7 @@ class _GameWidgetState extends State<GameWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: OutlinedButton(
             onPressed: () {
-              print('hoit');
+              // For debugging purposes
             },
             child: Text('Click me'),
           ),

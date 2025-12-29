@@ -14,7 +14,7 @@ class MoveHistoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.surface,
+      color: moveHistory.isEmpty ? null : Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.only(left: 8),
       height: 40,
       child: ListView.builder(

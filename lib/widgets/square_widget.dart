@@ -1,3 +1,4 @@
+import 'package:chess/constants.dart';
 import 'package:chess/models/piece.dart';
 import 'package:chess/models/square.dart';
 import 'package:chess/utils.dart';
@@ -76,6 +77,10 @@ class PieceIconWidget extends StatelessWidget {
         piece!.pieceType,
         isWhite: piece!.isWhite,
       ), // TODO: Why ! needed?
+      colorFilter: ColorFilter.mode(
+        piece!.isWhite ? Constants.lightPieceColor : Constants.darkPieceColor,
+        piece!.isWhite ? BlendMode.modulate : BlendMode.srcIn,
+      ),
     );
   }
 }

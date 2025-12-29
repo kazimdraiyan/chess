@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="45" height="45">
-  <g style="fill:none; fill-opacity:1; fill-rule:evenodd; stroke:#000000; stroke-width:1.5; stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1;">
-    <path d="M 22.5,11.63 L 22.5,6" style="fill:none; stroke:#000000; stroke-linejoin:miter;" id="path6570"/>
-    <path d="M 22.5,25 C 22.5,25 27,17.5 25.5,14.5 C 25.5,14.5 24.5,12 22.5,12 C 20.5,12 19.5,14.5 19.5,14.5 C 18,17.5 22.5,25 22.5,25" style="fill:#000000;fill-opacity:1; stroke-linecap:butt; stroke-linejoin:miter;"/>
-    <path d="M 12.5,37 C 18,40.5 27,40.5 32.5,37 L 32.5,30 C 32.5,30 41.5,25.5 38.5,19.5 C 34.5,13 25,16 22.5,23.5 L 22.5,27 L 22.5,23.5 C 20,16 10.5,13 6.5,19.5 C 3.5,25.5 12.5,30 12.5,30 L 12.5,37" style="fill:#000000; stroke:#000000;"/>
-    <path d="M 20,8 L 25,8" style="fill:none; stroke:#000000; stroke-linejoin:miter;"/>
-    <path d="M 32,29.5 C 32,29.5 40.5,25.5 38.03,19.85 C 34.15,14 25,18 22.5,24.5 L 22.5,26.6 L 22.5,24.5 C 20,18 10.85,14 6.97,19.85 C 4.5,25.5 13,29.5 13,29.5" style="fill:none; stroke:#ffffff;"/>
-    <path d="M 12.5,30 C 18,27 27,27 32.5,30 M 12.5,33.5 C 18,30.5 27,30.5 32.5,33.5 M 12.5,37 C 18,34 27,34 32.5,37" style="fill:none; stroke:#ffffff;"/>
-  </g>
-</svg>
+<svg
+   width="260"
+   height="260"
+   xml:space="preserve"
+   overflow="hidden"
+   version="1.1"
+   id="svg378"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs370"><clipPath
+       id="clip0"><rect
+         x="2460"
+         y="1497"
+         width="260"
+         height="260"
+         id="rect367" /></clipPath></defs><g
+     clip-path="url(#clip0)"
+     transform="matrix(0.95,0,0,0.95,-2330.5267,-1415.725)"
+     id="g376"><path
+       d="m 2558,1548 c 0,-17.12 13.66,-31 30.5,-31 16.84,0 30.5,13.88 30.5,31 0,17.12 -13.66,31 -30.5,31 -16.84,0 -30.5,-13.88 -30.5,-31 z"
+       fill="#262626"
+       fill-rule="evenodd"
+       id="path372" /><path
+       d="m 2524.14,1592.44 c 22.0737,-3.3089 43.0667,10.7802 54.3007,28.987 4.8566,5.8883 8.5681,18.7555 11.4985,21.5312 8.1127,-22.7217 24.7702,-45.3685 49.765,-50.1459 22.3774,-4.6779 45.5322,9.5069 54.2144,30.1239 12.1297,27.2455 4.483,58.5826 -8.7819,83.8853 -4.735,9.8575 -11.3036,18.5726 -17.9567,27.1785 -51.7867,0 -103.5733,0 -155.36,0 -16.0841,-19.9045 -28.2364,-43.5396 -31.9594,-69.0419 -3.6503,-23.6768 3.3394,-50.8792 24.1616,-64.778 6.009,-4.0514 12.9329,-6.7527 20.1178,-7.7401 z"
+       fill="#262626"
+       fill-rule="evenodd"
+       id="path374" /></g></svg>

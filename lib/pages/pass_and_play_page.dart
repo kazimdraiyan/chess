@@ -11,8 +11,9 @@ class PassAndPlayPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Pass and Play')),
       backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-      body: GameWidget(),
-      resizeToAvoidBottomInset: false, // TODO: What does it do?
+      body: SafeArea(child: GameWidget()),
+      resizeToAvoidBottomInset:
+          false, // This makes sure the keyboard doesn't change the layout of the game widget.
     );
   }
 }
