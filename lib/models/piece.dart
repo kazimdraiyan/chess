@@ -4,9 +4,9 @@ enum PieceType { king, queen, rook, bishop, knight, pawn }
 
 const promotionOptions = [
   PieceType.queen,
+  PieceType.knight,
   PieceType.rook,
   PieceType.bishop,
-  PieceType.knight,
 ];
 
 class Piece {

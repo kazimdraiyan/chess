@@ -48,7 +48,14 @@ class BoardManager {
     ).isOccupiedByEnemyPiece(square, isWhitePerspective);
   }
 
-  void movePiece(Square from, Square to) {
+  bool isPromotionMove(Square from, Square to) {
+    final piece = currentPiecePlacement.pieceAt(from)!;
+    return piece.pieceType == PieceType.pawn &&
+        to.rank == (piece.isWhite ? 8 : 1);
+  }
+
+  // promotedToPieceType being null means not a promotion move.
+  void movePiece(Square from, Square to, {PieceType? promotedToPieceType}) {
     // TODO: Clean this mess up by splitting the method into smaller methods
     final piece = currentPiecePlacement.pieceAt(from)!;
 
@@ -86,13 +93,8 @@ class BoardManager {
         ),
       ); // TODO: This move's from and to is used for highlighting only. It doesn't represent the actual from and to. Implement a better way to represent and highlight castling moves.
     } else {
-      final isPromotionMove =
-          piece.pieceType == PieceType.pawn &&
-          to.rank == (piece.isWhite ? 8 : 1);
-      final promotedToPieceType = isPromotionMove ? PieceType.queen : null; // TODO: Implement other promotion options
-      
       final piecePlacementAfterMoving = currentPiecePlacement.movePiece(
-        Move(from, to, piece: piece, promotedToPieceType: promotedToPieceType), // TODO: Implement other promotion options
+        Move(from, to, piece: piece, promotedToPieceType: promotedToPieceType),
       );
 
       final testingBoardAnalyzer = BoardAnalyzer(piecePlacementAfterMoving);

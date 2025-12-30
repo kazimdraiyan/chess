@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SquareWidget extends StatelessWidget {
-  final Square square;
+  final Square?
+  square; // Square being null means the square is not on the board, it is a promotion option square
   final Piece? piece;
   final Color? highlightColor;
   final bool isDotted;
@@ -16,10 +17,11 @@ class SquareWidget extends StatelessWidget {
   final bool isPieceRotated;
   final bool showFileLabel;
   final bool showRankLabel;
-  final void Function(Square square) onTapSquare;
+  final double? size;
+  final void Function() onTap;
 
-  const SquareWidget(
-    this.square, {
+  const SquareWidget({
+    this.square,
     this.piece,
     this.highlightColor,
     this.isDotted = false,
@@ -27,7 +29,8 @@ class SquareWidget extends StatelessWidget {
     this.isPieceRotated = false,
     this.showFileLabel = false,
     this.showRankLabel = false,
-    required this.onTapSquare,
+    this.size,
+    required this.onTap,
     super.key,
   });
 
@@ -38,23 +41,27 @@ class SquareWidget extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: () => onTapSquare(square),
+      onTap: onTap,
       child: Container(
+        width: size,
+        height: size,
         color:
-            square.isDark
-                ? Color(tonalPalette.get(65))
-                : Color(tonalPalette.get(97)),
+            square == null
+                ? Color(tonalPalette.get(98)) // Promotion option square
+                : (square!.isDark
+                    ? Color(tonalPalette.get(65))
+                    : Color(tonalPalette.get(97))),
         child: Container(
           color: highlightColor,
           child: Center(
             child: Stack(
               children: [
-                if (showFileLabel)
+                if (square != null && showFileLabel)
                   Container(
                     alignment: Alignment.bottomRight,
                     padding: EdgeInsets.only(right: 2),
                     child: Text(
-                      square.algebraicNotation[0],
+                      square!.algebraicNotation[0],
                       style: TextStyle(
                         color: Constants.darkColorScheme.primary,
                         fontSize: 8,
@@ -62,12 +69,12 @@ class SquareWidget extends StatelessWidget {
                     ),
                   ),
 
-                if (showRankLabel)
+                if (square != null && showRankLabel)
                   Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 2),
                     child: Text(
-                      square.algebraicNotation[1],
+                      square!.algebraicNotation[1],
                       style: TextStyle(
                         color: Constants.darkColorScheme.primary,
                         fontSize: 8,

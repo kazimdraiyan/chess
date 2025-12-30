@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Constants {
-  static const seedColor = Colors.green;
+  static const seedColor = Colors.pink;
 
   static final lightColorScheme = ColorScheme.fromSeed(
     seedColor: seedColor,
