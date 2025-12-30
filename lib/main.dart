@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Constants.lightColorScheme;
+    final colorScheme = Constants.darkColorScheme;
 
     return MaterialApp(
       title: 'Chess',
@@ -29,10 +29,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: colorScheme.primary,
           toolbarHeight: 70,
           centerTitle: true,
-          iconTheme: IconThemeData(
-            size: 36,
-            color: colorScheme.onPrimary,
-          ),
+          iconTheme: IconThemeData(size: 36, color: colorScheme.onPrimary),
           titleTextStyle: Constants.googleFont.copyWith(
             fontSize: 32,
             color: colorScheme.onPrimary,

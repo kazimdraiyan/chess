@@ -9,6 +9,7 @@ class Move {
   final bool causesCheck;
   final bool capturesPiece;
   final bool? isKingSideCastlingMove; // null means not a castling move.
+  final PieceType? promotedToPieceType; // null means not a promotion move.
 
   const Move(
     this.from,
@@ -17,6 +18,7 @@ class Move {
     this.causesCheck = false,
     this.capturesPiece = false,
     this.isKingSideCastlingMove,
+    this.promotedToPieceType,
   });
 
   String get algebraicNotation {
@@ -37,11 +39,14 @@ class Move {
       }
     }
     result += to.algebraicNotation;
+    if (promotedToPieceType != null) {
+      result += '=${Utils.fenInitialOf[promotedToPieceType!]!.toUpperCase()}';
+    }
     if (causesCheck) {
       result += '+';
     }
 
-    // TODO: Implement castling [DONE], promotion, en passant, checkmate, draw, disambiguating moves, etc.
+    // TODO: Implement castling [DONE], promotion [DONE], en passant, checkmate, draw, disambiguating moves, etc.
 
     return result;
   }

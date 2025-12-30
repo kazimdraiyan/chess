@@ -42,10 +42,14 @@ class PiecePlacement {
     final pieceMatrixCopy = [
       for (final rank in pieceMatrix) [...rank],
     ];
-    final piece = pieceAt(move.from);
+
+    final piece = move.promotedToPieceType == null ? pieceAt(move.from) : Piece(pieceType: move.promotedToPieceType!, isWhite: move.piece.isWhite);
+    
+    // TODO: Is this if check necessary? How can piece be null?
     if (piece == null) {
       return this; // If the fromSquare contains no piece, it returns the original PiecePlacement
     }
+    
     pieceMatrixCopy[move.from.rank - 1][move.from.file - 1] = null;
     pieceMatrixCopy[move.to.rank - 1][move.to.file - 1] = piece;
     return PiecePlacement.fromPieceMatrix(pieceMatrixCopy);

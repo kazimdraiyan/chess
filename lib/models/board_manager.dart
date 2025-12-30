@@ -86,8 +86,13 @@ class BoardManager {
         ),
       ); // TODO: This move's from and to is used for highlighting only. It doesn't represent the actual from and to. Implement a better way to represent and highlight castling moves.
     } else {
+      final isPromotionMove =
+          piece.pieceType == PieceType.pawn &&
+          to.rank == (piece.isWhite ? 8 : 1);
+      final promotedToPieceType = isPromotionMove ? PieceType.queen : null; // TODO: Implement other promotion options
+      
       final piecePlacementAfterMoving = currentPiecePlacement.movePiece(
-        Move(from, to, piece: piece),
+        Move(from, to, piece: piece, promotedToPieceType: promotedToPieceType), // TODO: Implement other promotion options
       );
 
       final testingBoardAnalyzer = BoardAnalyzer(piecePlacementAfterMoving);
@@ -98,6 +103,7 @@ class BoardManager {
         piece: piece,
         capturesPiece: currentPiecePlacement.pieceAt(to) != null,
         causesCheck: testingBoardAnalyzer.isKingInCheck(!piece.isWhite),
+        promotedToPieceType: promotedToPieceType,
       );
 
       if (piecePlacementAfterMoving != currentPiecePlacement) {
