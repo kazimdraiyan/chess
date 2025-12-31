@@ -79,6 +79,7 @@ class _BoardWidgetState extends State<BoardWidget> {
             selectedSquare!,
             tappedSquare,
             promotedToPieceType: null,
+            isEnPassantMove: tappedSquare.isEnPassantTargetSquare,
           );
           lastMove = widget.boardManager.lastMove;
           unselectSquare();
@@ -148,7 +149,22 @@ class _BoardWidgetState extends State<BoardWidget> {
           itemBuilder: (context, i) {
             final isBoardRotated = shouldRotateBoard && !widget.isWhiteToMove;
             final id = isBoardRotated ? 63 - i : i;
-            final square = Square.fromId(id);
+
+            var square = Square.fromId(id);
+            final isEnPassantTargetSquare =
+                legalMoveSquares
+                    .firstWhere(
+                      (legalMoveSquare) => square == legalMoveSquare,
+                      orElse:
+                          () => Square(0, 0, isEnPassantTargetSquare: false),
+                    )
+                    .isEnPassantTargetSquare; // Square(0, 0) is a dummy square that is impossible to be on a board.
+            square = Square(
+              square.file,
+              square.rank,
+              isEnPassantTargetSquare: isEnPassantTargetSquare,
+            ); // Now the isEnPassantTargetSquare information is stored in the square object.
+
             final piece = widget.boardManager.currentPiecePlacement.pieceAt(
               square,
             );
@@ -228,11 +244,13 @@ class _BoardWidgetState extends State<BoardWidget> {
                           piece: piece,
                           highlightColor: highlightColor,
                           isDotted:
-                              legalMoveSquares.contains(square) &&
-                              piece == null,
+                              !isEnPassantTargetSquare &&
+                              (legalMoveSquares.contains(square) &&
+                                  piece == null),
                           isCircled:
-                              legalMoveSquares.contains(square) &&
-                              isOccupiedByEnemyPiece,
+                              isEnPassantTargetSquare ||
+                              (legalMoveSquares.contains(square) &&
+                                  isOccupiedByEnemyPiece),
                           isPieceRotated: isPieceRotated,
                           showFileLabel: showFileLabel,
                           showRankLabel: showRankLabel,

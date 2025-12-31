@@ -25,10 +25,11 @@ class BoardAnalyzer {
     Square square, {
     bool? hasKingMoved,
     List<bool>? hasRooksMoved,
+    Move? lastMove,
   }) {
     final piece = _piecePlacement.pieceAt(square)!;
 
-    final filteredMoves = this.filteredMoves(square);
+    final filteredMoves = this.filteredMoves(square, lastMove);
 
     final result = <Square>[];
     for (final filteredMove in filteredMoves) {
@@ -49,23 +50,23 @@ class BoardAnalyzer {
     return result;
   }
 
-  // Attack squares should include blocking friendly pieces
+  // Attack squares should include blocking friendly pieces. Attack squares should not include en passant target squares.
   List<Square> attackSquares(Square square) {
     final piece = _piecePlacement.pieceAt(square);
     if (piece == null) {
       return [];
     } else if (piece.pieceType == PieceType.rook) {
-      return _rookfilteredMoves(
+      return _rookFilteredMoves(
         square,
         shouldIncludeBlockingFriendlyPiece: true,
       );
     } else if (piece.pieceType == PieceType.bishop) {
-      return _bishopfilteredMoves(
+      return _bishopFilteredMoves(
         square,
         shouldIncludeBlockingFriendlyPiece: true,
       );
     } else if (piece.pieceType == PieceType.queen) {
-      return _queenfilteredMoves(
+      return _queenFilteredMoves(
         square,
         shouldIncludeBlockingFriendlyPiece: true,
       );
@@ -79,27 +80,28 @@ class BoardAnalyzer {
   }
 
   /// filteredMoves doesn't account for pinned pieces, so some moves might leave the king in check.
-  List<Square> filteredMoves(Square square) {
+  /// lastMove is needed to determine en passant rights.
+  List<Square> filteredMoves(Square square, Move? lastMove) {
     final piece = _piecePlacement.pieceAt(square);
     if (piece == null) {
       return [];
     } else if (piece.pieceType == PieceType.rook) {
-      return _rookfilteredMoves(square);
+      return _rookFilteredMoves(square);
     } else if (piece.pieceType == PieceType.bishop) {
-      return _bishopfilteredMoves(square);
+      return _bishopFilteredMoves(square);
     } else if (piece.pieceType == PieceType.queen) {
-      return _queenfilteredMoves(square);
+      return _queenFilteredMoves(square);
     } else if (piece.pieceType == PieceType.knight) {
-      return _knightfilteredMoves(square);
+      return _knightFilteredMoves(square);
     } else if (piece.pieceType == PieceType.pawn) {
-      return _pawnfilteredMoves(square);
+      return _pawnFilteredMoves(square, lastMove);
     } else {
       // King
-      return _kingfilteredMoves(square);
+      return _kingFilteredMoves(square);
     }
   }
 
-  List<Square> _rookfilteredMoves(
+  List<Square> _rookFilteredMoves(
     Square square, {
     shouldIncludeBlockingFriendlyPiece = false,
   }) {
@@ -114,7 +116,7 @@ class BoardAnalyzer {
     );
   }
 
-  List<Square> _bishopfilteredMoves(
+  List<Square> _bishopFilteredMoves(
     Square square, {
     shouldIncludeBlockingFriendlyPiece = false,
   }) {
@@ -129,7 +131,7 @@ class BoardAnalyzer {
     );
   }
 
-  List<Square> _queenfilteredMoves(
+  List<Square> _queenFilteredMoves(
     Square square, {
     shouldIncludeBlockingFriendlyPiece = false,
   }) {
@@ -146,14 +148,14 @@ class BoardAnalyzer {
     );
   }
 
-  List<Square> _knightfilteredMoves(Square square) {
+  List<Square> _knightFilteredMoves(Square square) {
     final piece = _piecePlacement.pieceAt(square)!;
     final knightSquares = square.knightSquares;
 
     return filterBlockageByFriendlyPieces(knightSquares, piece.isWhite);
   }
 
-  List<Square> _kingfilteredMoves(Square square) {
+  List<Square> _kingFilteredMoves(Square square) {
     final piece = _piecePlacement.pieceAt(square)!;
     final kingSquares = square.kingSquares;
 
@@ -206,7 +208,7 @@ class BoardAnalyzer {
     return result;
   }
 
-  List<Square> _pawnfilteredMoves(Square square) {
+  List<Square> _pawnFilteredMoves(Square square, Move? lastMove) {
     final pawnSquares = <Square>[];
     final pawnCapturableSquares = <Square>[];
 
@@ -227,6 +229,22 @@ class BoardAnalyzer {
     for (final testingSquare in _pawnAttackSquares(square)) {
       if (isOccupiedByEnemyPiece(testingSquare, piece.isWhite)) {
         pawnCapturableSquares.add(testingSquare);
+      }
+    }
+
+    // En passant target squares
+    if (square.rank == (piece.isWhite ? 5 : 4) &&
+        lastMove != null &&
+        lastMove.piece.pieceType == PieceType.pawn) {
+      if ((lastMove.from.file - square.file).abs() == 1 &&
+          (lastMove.from.rank - lastMove.to.rank).abs() == 2) {
+        pawnCapturableSquares.add(
+          Square(
+            lastMove.from.file,
+            lastMove.from.rank + rankStep * (-1),
+            isEnPassantTargetSquare: true,
+          ),
+        );
       }
     }
 

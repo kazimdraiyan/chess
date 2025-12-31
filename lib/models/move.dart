@@ -8,6 +8,7 @@ class Move {
   final Piece piece;
   final bool causesCheck;
   final bool capturesPiece;
+  final bool isEnPassantMove;
   final bool? isKingSideCastlingMove; // null means not a castling move.
   final PieceType? promotedToPieceType; // null means not a promotion move.
 
@@ -17,9 +18,33 @@ class Move {
     required this.piece,
     this.causesCheck = false,
     this.capturesPiece = false,
+    this.isEnPassantMove = false,
     this.isKingSideCastlingMove,
     this.promotedToPieceType,
   });
+
+  Move copyWith({
+    Square? from,
+    Square? to,
+    Piece? piece,
+    bool? causesCheck,
+    bool? capturesPiece,
+    bool? isEnPassantMove,
+    bool? isKingSideCastlingMove,
+    PieceType? promotedToPieceType,
+  }) {
+    return Move(
+      from ?? this.from,
+      to ?? this.to,
+      piece: piece ?? this.piece,
+      causesCheck: causesCheck ?? this.causesCheck,
+      capturesPiece: capturesPiece ?? this.capturesPiece,
+      isEnPassantMove: isEnPassantMove ?? this.isEnPassantMove,
+      isKingSideCastlingMove:
+          isKingSideCastlingMove ?? this.isKingSideCastlingMove,
+      promotedToPieceType: promotedToPieceType ?? this.promotedToPieceType,
+    );
+  }
 
   String get algebraicNotation {
     if (isKingSideCastlingMove != null) {

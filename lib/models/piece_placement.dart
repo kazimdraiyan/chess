@@ -43,15 +43,29 @@ class PiecePlacement {
       for (final rank in pieceMatrix) [...rank],
     ];
 
-    final piece = move.promotedToPieceType == null ? pieceAt(move.from) : Piece(pieceType: move.promotedToPieceType!, isWhite: move.piece.isWhite);
-    
-    // TODO: Is this if check necessary? How can piece be null?
-    if (piece == null) {
-      return this; // If the fromSquare contains no piece, it returns the original PiecePlacement
-    }
-    
+    // Handles promotion move
+    final piece =
+        move.promotedToPieceType == null
+            ? pieceAt(move.from)
+            : Piece(
+              pieceType: move.promotedToPieceType!,
+              isWhite: move.piece.isWhite,
+            );
+
     pieceMatrixCopy[move.from.rank - 1][move.from.file - 1] = null;
-    pieceMatrixCopy[move.to.rank - 1][move.to.file - 1] = piece;
+    pieceMatrixCopy[move.to.rank - 1][move.to.file - 1] =
+        piece!; // Here, piece should not be null.
+
+    if (move.isEnPassantMove) {
+      final capturedEnemyPawnSquare = Square(
+        move.to.file,
+        move.to.rank + (move.piece.isWhite ? -1 : 1),
+      );
+      pieceMatrixCopy[capturedEnemyPawnSquare.rank -
+              1][capturedEnemyPawnSquare.file - 1] =
+          null;
+    }
+
     return PiecePlacement.fromPieceMatrix(pieceMatrixCopy);
   }
 

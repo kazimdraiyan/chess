@@ -4,6 +4,11 @@ import 'package:chess/models/piece.dart';
 import 'package:chess/models/piece_placement.dart';
 import 'package:chess/models/square.dart';
 
+const _kingToRookFromRookTo = [
+  [7, 8, 6], // King side
+  [3, 1, 4], // Queen side
+]; // (File)
+
 class BoardManager {
   var currentPiecePlacement = PiecePlacement.starting();
   final moveHistory = <Move>[];
@@ -33,6 +38,7 @@ class BoardManager {
       square,
       hasKingMoved: hasKingMoved,
       hasRooksMoved: hasRooksMoved,
+      lastMove: lastMove,
     );
   }
 
@@ -55,24 +61,30 @@ class BoardManager {
   }
 
   // promotedToPieceType being null means not a promotion move.
-  void movePiece(Square from, Square to, {PieceType? promotedToPieceType}) {
+  void movePiece(
+    Square from,
+    Square to, {
+    PieceType? promotedToPieceType,
+    bool isEnPassantMove = false,
+  }) {
     // TODO: Clean this mess up by splitting the method into smaller methods
     final piece = currentPiecePlacement.pieceAt(from)!;
+    Move move;
+    PiecePlacement piecePlacementAfterMoving;
 
-    if (piece.pieceType == PieceType.king &&
+    final isCastlingMove =
+        piece.pieceType == PieceType.king &&
         from.file == 5 &&
-        (to.file == 3 || to.file == 7)) {
-      // Castling move
-      const kingToRookFromRookTo = [
-        [7, 8, 6], // King side
-        [3, 1, 4], // Queen side
-      ]; // (File)
+        (to.file == 3 || to.file == 7);
 
+    if (isCastlingMove) {
+      // Move king
       final piecePlacementAfterMovingKing = currentPiecePlacement.movePiece(
         Move(from, to, piece: piece),
       );
 
-      final rookFromRookTo = kingToRookFromRookTo.firstWhere((element) {
+      // Move rook
+      final rookFromRookTo = _kingToRookFromRookTo.firstWhere((element) {
         return element[0] == to.file;
       });
       final piecePlacementAfterMovingRook = piecePlacementAfterMovingKing
@@ -83,37 +95,46 @@ class BoardManager {
               piece: Piece(pieceType: PieceType.rook),
             ),
           );
-      currentPiecePlacement = piecePlacementAfterMovingRook;
-      moveHistory.add(
-        Move(
-          from,
-          Square(rookFromRookTo[1], from.rank),
-          piece: piece,
-          isKingSideCastlingMove: to.file == 7,
-        ),
-      ); // TODO: This move's from and to is used for highlighting only. It doesn't represent the actual from and to. Implement a better way to represent and highlight castling moves.
-    } else {
-      final piecePlacementAfterMoving = currentPiecePlacement.movePiece(
-        Move(from, to, piece: piece, promotedToPieceType: promotedToPieceType),
+
+      piecePlacementAfterMoving = piecePlacementAfterMovingRook;
+      move = Move(
+        from,
+        Square(rookFromRookTo[1], from.rank),
+        piece: piece,
+        capturesPiece: false,
+        isKingSideCastlingMove: to.file == 7,
+      ); // This move's from and to is used for highlighting only. It doesn't represent the actual from and to.
+    } else if (isEnPassantMove) {
+      // En passant move
+      move = Move(
+        from,
+        to,
+        piece: piece,
+        capturesPiece: true,
+        isEnPassantMove: isEnPassantMove,
       );
-
-      final testingBoardAnalyzer = BoardAnalyzer(piecePlacementAfterMoving);
-
-      final move = Move(
+      piecePlacementAfterMoving = currentPiecePlacement.movePiece(move);
+    } else {
+      // Normal move and promotion move
+      move = Move(
         from,
         to,
         piece: piece,
         capturesPiece: currentPiecePlacement.pieceAt(to) != null,
-        causesCheck: testingBoardAnalyzer.isKingInCheck(!piece.isWhite),
         promotedToPieceType: promotedToPieceType,
       );
-
-      if (piecePlacementAfterMoving != currentPiecePlacement) {
-        // TODO: Is this if check necessary?
-        currentPiecePlacement = piecePlacementAfterMoving;
-        moveHistory.add(move);
-      }
+      piecePlacementAfterMoving = currentPiecePlacement.movePiece(move);
     }
+
+    // Checks if the move causes check to the opponent king
+    final testingBoardAnalyzer = BoardAnalyzer(piecePlacementAfterMoving);
+    final finalMove = move.copyWith(
+      causesCheck: testingBoardAnalyzer.isKingInCheck(!piece.isWhite),
+    );
+
+    // Update piece placement and move history
+    currentPiecePlacement = piecePlacementAfterMoving;
+    moveHistory.add(finalMove);
 
     // Update castling rights
     final index = piece.isWhite ? 0 : 1;
