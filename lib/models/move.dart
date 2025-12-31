@@ -67,6 +67,9 @@ class Move {
     if (promotedToPieceType != null) {
       result += '=${Utils.fenInitialOf[promotedToPieceType!]!.toUpperCase()}';
     }
+    if (isEnPassantMove) {
+      result += ' e.p.';
+    }
     if (causesCheck) {
       result += '+';
     }
