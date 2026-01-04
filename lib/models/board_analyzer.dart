@@ -34,7 +34,14 @@ class BoardAnalyzer {
     final result = <Square>[];
     for (final filteredMove in filteredMoves) {
       final testingBoardAnalyzer = BoardAnalyzer(
-        _piecePlacement.movePiece(Move(square, filteredMove, piece: piece)),
+        _piecePlacement.movePiece(
+          Move(
+            square,
+            filteredMove,
+            piece: piece,
+            isEnPassantMove: filteredMove.isEnPassantTargetSquare,
+          ),
+        ),
       );
       if (!testingBoardAnalyzer.isKingInCheck(piece.isWhite)) {
         // King would not be in check
