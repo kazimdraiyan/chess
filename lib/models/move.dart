@@ -11,6 +11,8 @@ class Move {
   final bool isEnPassantMove;
   final bool? isKingSideCastlingMove; // null means not a castling move.
   final PieceType? promotedToPieceType; // null means not a promotion move.
+  final bool isCheckmate;
+  final bool isStalemate;
 
   const Move(
     this.from,
@@ -19,6 +21,8 @@ class Move {
     this.causesCheck = false,
     this.capturesPiece = false,
     this.isEnPassantMove = false,
+    this.isCheckmate = false,
+    this.isStalemate = false,
     this.isKingSideCastlingMove,
     this.promotedToPieceType,
   });
@@ -32,6 +36,8 @@ class Move {
     bool? isEnPassantMove,
     bool? isKingSideCastlingMove,
     PieceType? promotedToPieceType,
+    bool? isCheckmate,
+    bool? isStalemate,
   }) {
     return Move(
       from ?? this.from,
@@ -43,6 +49,8 @@ class Move {
       isKingSideCastlingMove:
           isKingSideCastlingMove ?? this.isKingSideCastlingMove,
       promotedToPieceType: promotedToPieceType ?? this.promotedToPieceType,
+      isCheckmate: isCheckmate ?? this.isCheckmate,
+      isStalemate: isStalemate ?? this.isStalemate,
     );
   }
 
@@ -70,11 +78,15 @@ class Move {
     if (isEnPassantMove) {
       result += ' e.p.';
     }
-    if (causesCheck) {
+
+    if (isCheckmate) {
+      result += '#';
+    }
+    else if (causesCheck) {
       result += '+';
     }
 
-    // TODO: Implement castling [DONE], promotion [DONE], en passant, checkmate, draw, disambiguating moves, etc.
+    // TODO: Implement castling [DONE], promotion [DONE], en passant [DONE], checkmate [DONE], draw, disambiguating moves, etc.
 
     return result;
   }

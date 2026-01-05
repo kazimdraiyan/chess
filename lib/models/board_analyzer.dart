@@ -21,11 +21,33 @@ class BoardAnalyzer {
     return result;
   }
 
+  bool hasLegalMoves(
+    bool isWhite, {
+    required bool hasKingMoved,
+    required List<bool> hasRooksMoved,
+    required Move? lastMove,
+  }) {
+    final currentColorPieceContainingSquares = _piecePlacement
+        .certainColorPieceContainingSquares(isWhite);
+    for (final currentColorPieceContainingSquare
+        in currentColorPieceContainingSquares) {
+      if (legalMoves(
+        currentColorPieceContainingSquare,
+        hasKingMoved: hasKingMoved,
+        hasRooksMoved: hasRooksMoved,
+        lastMove: lastMove,
+      ).isNotEmpty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   List<Square> legalMoves(
     Square square, {
     bool? hasKingMoved,
     List<bool>? hasRooksMoved,
-    Move? lastMove,
+    required Move? lastMove,
   }) {
     final piece = _piecePlacement.pieceAt(square)!;
 

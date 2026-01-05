@@ -1,6 +1,7 @@
 import 'package:chess/models/board_manager.dart';
 import 'package:chess/models/piece_placement.dart';
 import 'package:chess/widgets/board_widget.dart';
+import 'package:chess/widgets/game_result_widget.dart';
 import 'package:chess/widgets/move_history_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,22 @@ class _GameWidgetState extends State<GameWidget> {
         );
       });
     });
+
+    // TODO: Is here the best place to call for the game result dialog?
+    // TODO: Disable tapping and dragging after game ends when in the Game Review mode.
+    if (boardManager.hasGameEnded) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => GameResultWidget(
+              lastMove: boardManager.lastMove!,
+              onPressedRematch: () {
+                Navigator.of(context).pop();
+                resetToStartingPosition();
+              },
+            ),
+      );
+    }
   }
 
   @override

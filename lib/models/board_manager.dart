@@ -21,18 +21,15 @@ class BoardManager {
   ]; // [White[Queen side, King side], Black[Queen side, King side]]
 
   List<Square> legalMoves(Square square) {
+    final piece = currentPiecePlacement.pieceAt(square)!;
+
     bool? hasKingMoved;
     List<bool>? hasRooksMoved;
-    if (currentPiecePlacement.pieceAt(square)!.pieceType == PieceType.king) {
-      hasKingMoved =
-          hasBothColorKingMoved[currentPiecePlacement.pieceAt(square)!.isWhite
-              ? 0
-              : 1];
-      hasRooksMoved =
-          hasBothColorRooksMoved[currentPiecePlacement.pieceAt(square)!.isWhite
-              ? 0
-              : 1];
+    if (piece.pieceType == PieceType.king) {
+      hasKingMoved = this.hasKingMoved(piece.isWhite);
+      hasRooksMoved = this.hasRooksMoved(piece.isWhite);
     }
+
     // If the piece is not king, null will be passed to the named parameters
     return BoardAnalyzer(currentPiecePlacement).legalMoves(
       square,
@@ -126,10 +123,27 @@ class BoardManager {
       piecePlacementAfterMoving = currentPiecePlacement.movePiece(move);
     }
 
-    // Checks if the move causes check to the opponent king
     final testingBoardAnalyzer = BoardAnalyzer(piecePlacementAfterMoving);
+
+    // Checks if the move causes check to the opponent king
+    final causesCheck = testingBoardAnalyzer.isKingInCheck(!piece.isWhite);
+
+    // Check if the move causes checkmate or stalemate
+    final hasKingMoved = this.hasKingMoved(!piece.isWhite);
+    final hasRooksMoved = this.hasRooksMoved(!piece.isWhite);
+    final opponentHasLegalMoves = testingBoardAnalyzer.hasLegalMoves(
+      !piece.isWhite,
+      hasKingMoved: hasKingMoved,
+      hasRooksMoved: hasRooksMoved,
+      lastMove: lastMove,
+    );
+    final isCheckmate = causesCheck && !opponentHasLegalMoves;
+    final isStalemate = !causesCheck && !opponentHasLegalMoves;
+
     final finalMove = move.copyWith(
-      causesCheck: testingBoardAnalyzer.isKingInCheck(!piece.isWhite),
+      causesCheck: causesCheck,
+      isCheckmate: isCheckmate,
+      isStalemate: isStalemate,
     );
 
     // Update piece placement and move history
@@ -151,6 +165,7 @@ class BoardManager {
         hasBothColorRooksMoved[index][1] = true;
       }
     }
+
     // TODO: Save captured pieces and calculate advantage
   }
 
@@ -160,5 +175,17 @@ class BoardManager {
     } else {
       return moveHistory.last;
     }
+  }
+
+  bool hasKingMoved(bool isWhite) {
+    return hasBothColorKingMoved[isWhite ? 0 : 1];
+  }
+
+  List<bool> hasRooksMoved(bool isWhite) {
+    return hasBothColorRooksMoved[isWhite ? 0 : 1];
+  }
+
+  bool get hasGameEnded {
+    return (lastMove?.isCheckmate ?? false) || (lastMove?.isStalemate ?? false);
   }
 }
